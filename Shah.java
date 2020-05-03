@@ -1,32 +1,27 @@
-import com.sun.org.apache.xpath.internal.objects.XString;
-
 import java.util.Scanner;
 
 public class Shah {
     public static void main(String[] args) {
         int indexOne = 0, indexTwo = 0;
         String swapHelp = "   ";
-        String[][] gameBoard = {{"bDw", "|", "bD ", "|", "bQ ", "|", "bK ", "|", "bM ", "|", "bDw" + "|" + "A"},
+        String[][] gameBoard = {{"bDw", "|", "bD ", "|", "bQ ", "|", "bK ", "|", "bM ", "|", "bDw", "|", "A"},
 
-                {"---", "+", "---", "+", "---", "+", "---", "+", "---", "+", "---" + "+"},
-                {"   ", "|", "   ", "|", "   ", "|", "   ", "|", "   ", "|", "   " + "|" + "B"},
-                {"---", "+", "---", "+", "---", "+", "---", "+", "---", "+", "---" + "+"},
-                {"   ", "|", "   ", "|", "   ", "|", "   ", "|", "   ", "|", "   " + "|" + "C"},
-                {"---", "+", "---", "+", "---", "+", "---", "+", "---", "+", "---" + "+"},
-                {"   ", "|", "   ", "|", "   ", "|", "   ", "|", "   ", "|", "   " + "|" + "D"},
-                {"---", "+", "---", "+", "---", "+", "---", "+", "---", "+", "---" + "+"},
-                {"   ", "|", "   ", "|", "   ", "|", "   ", "|", "   ", "|", "   " + "|" + "E"},
-                {"---", "+", "---", "+", "---", "+", "---", "+", "---", "+", "---" + "+"},
-                {"wDw", "|", "wD ", "|", "wK ", "|", "wQ ", "|", "wM ", "|", "wDw" + "|" + "F"},
-                {"---", "+", "---", "+", "---", "+", "---", "+", "---", "+", "---" + "+"},
+                {"---", "+", "---", "+", "---", "+", "---", "+", "---", "+", "---", "+"},
+                {"   ", "|", "   ", "|", "   ", "|", "   ", "|", "   ", "|", "   ", "|", "B"},
+                {"---", "+", "---", "+", "---", "+", "---", "+", "---", "+", "---", "+"},
+                {"   ", "|", "   ", "|", "   ", "|", "   ", "|", "   ", "|", "   ", "|", "C"},
+                {"---", "+", "---", "+", "---", "+", "---", "+", "---", "+", "---", "+"},
+                {"   ", "|", "   ", "|", "   ", "|", "   ", "|", "   ", "|", "   ", "|", "D"},
+                {"---", "+", "---", "+", "---", "+", "---", "+", "---", "+", "---", "+"},
+                {"   ", "|", "   ", "|", "   ", "|", "   ", "|", "   ", "|", "   ", "|", "E"},
+                {"---", "+", "---", "+", "---", "+", "---", "+", "---", "+", "---", "+"},
+                {"wDw", "|", "wD ", "|", "wK ", "|", "wQ ", "|", "wM ", "|", "wDw", "|", "F"},
+                {"---", "+", "---", "+", "---", "+", "---", "+", "---", "+", "---", "+"},
                 {" A ", "|", " B ", "|", " C ", "|", " D ", "|", " E ", "|", " F "}
         };
         game(gameBoard, indexOne, indexTwo, swapHelp);
 
-        //int indexOne=0,indexTwo=0;
-        //getPosition(swap,indexOne,indexTwo);
     }
-
     public static void game(String[][] gameBoard, int indexOne, int indexTwo, String swapHelp) {
         int round = 0;
         Scanner word = new Scanner(System.in);
@@ -246,6 +241,13 @@ public class Shah {
                 mMoves(gameBoard, indexOne, indexTwo, swap, round, swapHelp);
                 break;
             }
+            case "Q ": {
+                queenMoves(gameBoard, indexOne, indexTwo, swap, round, swapHelp);
+                break;
+            }
+            case "K ": {
+                kingMoves(gameBoard, indexOne, indexTwo, swap, round, swapHelp);
+            }
             default: {
                 break;
             }
@@ -263,8 +265,6 @@ public class Shah {
         }
         //DwMovesReverse(gameBoard, indexOne, indexTwo, swap, round, swapHelp);
     }
-
-    //indexOne>0 && gameBoard[indexOne][indexTwo].substring(0, 1).equals("b")
     public static void DwMovesUpBlack(String[][] gameBoard, int indexOne, int indexTwo, Scanner swap, int round, String swapHelp) {
 
         if (gameBoard[indexOne][indexTwo].equals("bDw")) {
@@ -289,8 +289,6 @@ public class Shah {
             }
         }
     }
-
-
     public static void DwMovesUpWhite(String[][] gameBoard, int indexOne, int indexTwo, Scanner swap, int round, String swapHelp) {
 
         if (gameBoard[indexOne][indexTwo].equals("wDw")) {
@@ -321,7 +319,6 @@ public class Shah {
         }
         printGameboard(gameBoard);
     }
-
     public static void DwMovesReverse(String[][] gameBoard, int indexOne, int indexTwo, Scanner swap, int round, String swapHelp) {
 
         if (gameBoard[indexOne][indexTwo].substring(0, 1).equals("w")) {
@@ -375,8 +372,14 @@ public class Shah {
         }
         printGameboard(gameBoard);
     }
-
-    public static void mMoves(String[][] gameBoard, int indexOne, int indexTwo, Scanner swap, int round, String swapHelp) {
+    public static void mMoves(String[][] gameBoard, int indexOne, int indexTwo, Scanner swap, int round, String swapHelp){
+        if (indexOne <= 10 && gameBoard[indexOne][indexTwo].substring(0, 1).equals("w")) {
+            mMovesWhite(gameBoard, indexOne, indexTwo, swap, round, swapHelp);
+        } else if (indexOne >= 0 && gameBoard[indexOne][indexTwo].substring(0, 1).equals("b")) {
+            mMovesBlack(gameBoard, indexOne, indexTwo, swap, round, swapHelp);
+        }
+    }
+    public static void mMovesBlack(String[][] gameBoard, int indexOne, int indexTwo, Scanner swap, int round, String swapHelp) {
         int indexHelperOne=indexOne, indexHelperTwo=indexTwo;
         String pieceSpot,helper ,clear="   ";
         System.out.println(indexOne+"|"+indexTwo);
@@ -385,7 +388,7 @@ public class Shah {
                 if (gameBoard[indexOne + 2][indexTwo].equals("   ")) {
                     gameBoard[indexOne + 2][indexTwo] = "Fre";
                 }
-                if (gameBoard[indexOne + 2][indexTwo].equals(" + ")) {
+                if (gameBoard[indexOne + 2][indexTwo].equals(" w ")) {
                     gameBoard[indexOne + 2][indexTwo]=" + ";
                 }
             }
@@ -406,7 +409,6 @@ public class Shah {
                 if(gameBoard[indexOne][indexTwo + 2].substring(0).equals("w")){
                     gameBoard[indexOne][indexTwo + 2] = " + ";
                 }
-
             }
             System.out.println(indexOne+"|"+indexTwo);
             if (indexTwo > 0) {
@@ -418,8 +420,17 @@ public class Shah {
                 }
             }
             printGameboard(gameBoard);
+            if (indexOne < 10)
+            gameBoard[indexOne+2][indexTwo]=clear;
+            if (indexOne > 0)
+            gameBoard[indexOne-2][indexTwo]=clear;
+            if(indexTwo > 0)
+            gameBoard[indexOne][indexTwo - 2]=clear;
+            if(indexTwo < 10)
+            gameBoard[indexOne][indexTwo + 2]=clear;
             pieceSpot = gameBoard[indexOne][indexTwo];
             gameBoard[indexOne][indexTwo]=clear;
+            System.out.println("Where do you want to put it");
             String word = swap.nextLine();
             char firstLetter = word.charAt(0), secondLetter = word.charAt(1);
             switch (firstLetter) {
@@ -512,6 +523,811 @@ public class Shah {
             }
 
 
+        }
+    }
+    public static void mMovesWhite(String[][] gameBoard, int indexOne, int indexTwo, Scanner swap, int round, String swapHelp) {
+        int indexHelperOne=indexOne, indexHelperTwo=indexTwo;
+        String pieceSpot ,clear="   ";
+        if (gameBoard[indexOne][indexTwo].substring(0, 2).equals("bM")) {
+            if (indexOne < 10) {
+                if (gameBoard[indexOne + 2][indexTwo].equals("   ")) {
+                    gameBoard[indexOne + 2][indexTwo] = "Fre";
+                }
+                if (gameBoard[indexOne + 2][indexTwo].equals(" w ")) {
+                    gameBoard[indexOne + 2][indexTwo]=" + ";
+                }
+            }
+            if (indexOne > 0) {
+                if (gameBoard[indexOne - 2][indexTwo].equals("   ")) {
+                    gameBoard[indexOne - 2][indexTwo] = "Fre";
+                }
+                if(gameBoard[indexOne-2][indexTwo].substring(0).equals("w")){
+                    gameBoard[indexOne-2][indexTwo ] = " + ";
+                }
+            }
+            if (indexTwo < 10) {
+                if (gameBoard[indexOne][indexTwo + 2].equals("   ")) {
+                    gameBoard[indexOne][indexTwo + 2] = "Fre";
+                }
+                if(gameBoard[indexOne][indexTwo + 2].substring(0).equals("w")){
+                    gameBoard[indexOne][indexTwo + 2] = " + ";
+                }
+
+            }
+            if (indexTwo > 0) {
+                if (gameBoard[indexOne][indexTwo - 2].equals("   ")) {
+                    gameBoard[indexOne][indexTwo - 2] = "Fre";
+                }
+                if(gameBoard[indexOne][indexTwo - 2].substring(0).equals("w")){
+                    gameBoard[indexOne][indexTwo - 2] = " + ";
+                }
+            }
+            printGameboard(gameBoard);
+            pieceSpot = gameBoard[indexOne][indexTwo];
+            gameBoard[indexOne][indexTwo]=clear;
+            String word = swap.nextLine();
+            if (indexOne < 10)
+                gameBoard[indexOne+2][indexTwo]=clear;
+            if (indexOne > 0)
+                gameBoard[indexOne-2][indexTwo]=clear;
+            if(indexTwo > 0)
+                gameBoard[indexOne][indexTwo - 2]=clear;
+            if(indexTwo < 10)
+                gameBoard[indexOne][indexTwo + 2]=clear;
+            char firstLetter = word.charAt(0), secondLetter = word.charAt(1);
+            switch (firstLetter) {
+                case 'A': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 10;
+                    break;
+                }
+                case 'B': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 9;
+                    break;
+                }
+                case 'C': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 8;
+                    break;
+                }
+                case 'D': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 7;
+                    break;
+                }
+                case 'E': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 6;
+                    break;
+                }
+                case 'F': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 5;
+                    break;
+                }
+                default: {
+                    System.out.println("Wrong character");
+                    break;
+                }
+            }
+            switch (secondLetter) {
+                case 'A': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 10;
+                    break;
+                }
+                case 'B': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 9;
+                    break;
+                }
+                case 'C': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 8;
+                    break;
+                }
+                case 'D': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 7;
+                    break;
+                }
+                case 'E': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 6;
+                    break;
+                }
+                case 'F': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 5;
+                    break;
+                }
+                default: {
+                    System.out.println("Wrong character");
+                    break;
+                }
+            }
+            if (indexOne-indexHelperOne==2 || indexOne-indexHelperOne==-2&&indexTwo-indexHelperOne==2||indexTwo-indexHelperTwo==2){
+                if (gameBoard[indexOne][indexTwo].substring(0,1).equals("b")){
+                    System.out.println("You allready have the spot");
+                }else {
+                    System.out.println("Is that gonna be your turn Yes/No");
+                    String vote = swap.nextLine();
+                    if (vote.equals("Yes")) {
+
+                        gameBoard[indexOne][indexTwo] = pieceSpot;
+
+                    } else moves(gameBoard, round, indexOne, indexTwo, swapHelp, swap);
+                }
+            }else {
+                System.out.println("You cheat");
+                mMoves(gameBoard,indexOne,indexTwo,swap,round,swapHelp);
+            }
+        }
+    }
+    public static void queenMoves(String[][] gameBoard, int indexOne, int indexTwo, Scanner swap, int round, String swapHelp){
+        if (indexOne <= 10 && gameBoard[indexOne][indexTwo].substring(0, 1).equals("w")) {
+            queenMovesWhite(gameBoard, indexOne, indexTwo, swap, round, swapHelp);
+        } else if (indexOne >= 0 && gameBoard[indexOne][indexTwo].substring(0, 1).equals("b")) {
+            queenMovesBlack(gameBoard, indexOne, indexTwo, swap, round, swapHelp);
+        }
+    }
+    public static void queenMovesBlack(String[][] gameBoard, int indexOne, int indexTwo, Scanner swap, int round, String swapHelp) {
+        int indexHelperOne = indexOne, indexHelperTwo = indexTwo;
+        String pieceSpot, clear = "   ";
+        System.out.println(indexOne+"|"+indexTwo);
+        if (gameBoard[indexOne][indexTwo].substring(0, 2).equals("bQ")) {
+            System.out.println(indexOne+"|"+indexTwo);
+            if (indexOne < 10 && indexTwo < 10) {
+                System.out.println("asdasdasd");
+                if (gameBoard[indexOne + 2][indexTwo + 2].equals("   ")) {
+                    gameBoard[indexOne + 2][indexTwo + 2] = "Fre";
+                }
+                if (gameBoard[indexOne + 2][indexTwo + 2].substring(0,1).equals("w")) {
+                    gameBoard[indexOne + 2][indexTwo + 2] = " + ";
+                }
+            }
+            if (indexOne < 10 && indexTwo > 0) {
+                if (gameBoard[indexOne + 2][indexTwo - 2].equals("   ")) {
+                    gameBoard[indexOne + 2][indexTwo - 2] = "Fre";
+                }
+                if (gameBoard[indexOne + 2][indexTwo - 2].substring(0,1).equals("w")) {
+                    gameBoard[indexOne + 2][indexTwo - 2] = " + ";
+                }
+            }
+            if (indexOne>0 && indexTwo < 10) {
+                if (gameBoard[indexOne - 2][indexTwo + 2].equals("   ")) {
+                    gameBoard[indexOne - 2][indexTwo + 2] = "Fre";
+                }
+                if (gameBoard[indexOne - 2][indexTwo + 2].substring(0,1).equals("w")) {
+                    gameBoard[indexOne - 2][indexTwo + 2] = " + ";
+                }
+
+            }
+            if (indexOne > 0 && indexTwo > 0) {
+                if (gameBoard[indexOne - 2][indexTwo - 2].equals("   ")) {
+                    gameBoard[indexOne - 2][indexTwo - 2] = "Fre";
+                }
+                if (gameBoard[indexOne - 2][indexTwo - 2].substring(0,1).equals("w")) {
+                    gameBoard[indexOne - 2][indexTwo - 2] = " + ";
+                }
+            }
+            printGameboard(gameBoard);
+            pieceSpot = gameBoard[indexOne][indexTwo];
+            gameBoard[indexOne][indexTwo] = clear;
+            String word = swap.nextLine();
+            if (indexOne < 10 && indexTwo < 10)
+                if (gameBoard[indexOne + 2][indexTwo + 2].equals("Fre")) {
+                    gameBoard[indexOne + 2][indexTwo + 2] = clear;
+                }
+            if (indexOne>0 && indexTwo < 10)
+            if(gameBoard[indexOne - 2][indexTwo + 2].equals("Fre")){
+                gameBoard[indexOne - 2][indexTwo + 2] = clear;
+            }
+            if(indexOne < 10 && indexTwo > 0)
+            if(gameBoard[indexOne + 2][indexTwo - 2].equals("Fre")){
+                gameBoard[indexOne + 2][indexTwo - 2] = clear;
+            }
+            if (indexOne > 0 && indexTwo > 0)
+            if(gameBoard[indexOne - 2][indexTwo - 2].equals("Fre")){
+                gameBoard[indexOne - 2][indexTwo - 2] = clear;
+            }
+            char firstLetter = word.charAt(0), secondLetter = word.charAt(1);
+            switch (firstLetter) {
+                case 'A': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 10;
+                    break;
+                }
+                case 'B': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 9;
+                    break;
+                }
+                case 'C': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 8;
+                    break;
+                }
+                case 'D': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 7;
+                    break;
+                }
+                case 'E': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 6;
+                    break;
+                }
+                case 'F': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 5;
+                    break;
+                }
+                default: {
+                    System.out.println("Wrong character");
+                    break;
+                }
+            }
+            switch (secondLetter) {
+                case 'A': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 10;
+                    break;
+                }
+                case 'B': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 9;
+                    break;
+                }
+                case 'C': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 8;
+                    break;
+                }
+                case 'D': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 7;
+                    break;
+                }
+                case 'E': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 6;
+                    break;
+                }
+                case 'F': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 5;
+                    break;
+                }
+                default: {
+                    System.out.println("Wrong character");
+                    break;
+                }
+            }
+            if (indexOne - indexHelperOne == 2 || indexOne - indexHelperOne == -2 && indexTwo - indexHelperOne == 2 || indexTwo - indexHelperTwo == -2) {
+                if (gameBoard[indexOne][indexTwo].substring(0, 1).equals("b")) {
+                    System.out.println("You allready have the spot");
+                } else {
+                    System.out.println("Is that gonna be your turn Yes/No");
+                    String vote = swap.nextLine();
+                    if (vote.equals("Yes")) {
+
+                        gameBoard[indexOne][indexTwo] = pieceSpot;
+
+                    } else moves(gameBoard, round, indexOne, indexTwo, swapHelp, swap);
+                }
+            } else {
+                System.out.println("You cheat");
+                queenMovesBlack(gameBoard, indexOne, indexTwo, swap, round, swapHelp);
+            }
+        }
+    }
+    public static void queenMovesWhite(String[][] gameBoard, int indexOne, int indexTwo, Scanner swap, int round, String swapHelp){
+        int indexHelperOne=indexOne, indexHelperTwo=indexTwo;
+        String pieceSpot ,clear="   ";
+        if (gameBoard[indexOne][indexTwo].substring(0, 2).equals("wQ")) {
+            if (indexOne < 10 && indexTwo < 10) {
+                if (gameBoard[indexOne + 2][indexTwo + 2].equals("   ")) {
+                    gameBoard[indexOne + 2][indexTwo + 2] = "Fre";
+                }
+                if (gameBoard[indexOne + 2][indexTwo + 2].substring(0,1).equals(" + ")) {
+                    gameBoard[indexOne + 2][indexTwo + 2] = " + ";
+                }
+            }
+            if (indexOne < 10 && indexTwo > 0) {
+                if (gameBoard[indexOne + 2][indexTwo - 2].equals("   ")) {
+                    gameBoard[indexOne + 2][indexTwo - 2] = "Fre";
+                }
+                if (gameBoard[indexOne + 2][indexTwo - 2].substring(0,1).equals("b")) {
+                    gameBoard[indexOne + 2][indexTwo - 2] = " + ";
+                }
+            }
+            if (indexTwo > 0 && indexTwo < 10) {
+                if (gameBoard[indexOne - 2][indexTwo + 2].equals("   ")) {
+                    gameBoard[indexOne - 2][indexTwo + 2] = "Fre";
+                }
+                if (gameBoard[indexOne - 2][indexTwo + 2].substring(0,1).equals("b")) {
+                    gameBoard[indexOne - 2][indexTwo + 2] = " + ";
+                }
+            }
+        }
+            if (indexOne > 0 && indexTwo > 0) {
+                if (gameBoard[indexOne - 2][indexTwo - 2].equals("   ")) {
+                    gameBoard[indexOne - 2][indexTwo - 2] = "Fre";
+                }
+                if (gameBoard[indexOne - 2][indexTwo - 2].substring(0,1).equals("b")) {
+                    gameBoard[indexOne - 2][indexTwo - 2] = " + ";
+                }
+            }
+            printGameboard(gameBoard);
+            pieceSpot = gameBoard[indexOne][indexTwo];
+            gameBoard[indexOne][indexTwo] = clear;
+            String word = swap.nextLine();
+            if (indexOne < 10 && indexTwo < 10)
+                if(gameBoard[indexOne + 2][indexTwo + 2].equals("Fre")){
+                    gameBoard[indexOne + 2][indexTwo + 2] = clear;
+                }
+            if (indexOne>0 && indexTwo < 10)
+                if(gameBoard[indexOne - 2][indexTwo + 2].equals("Fre")){
+                    gameBoard[indexOne - 2][indexTwo + 2] = clear;
+                }
+            if(indexOne < 10 && indexTwo > 0)
+                if(gameBoard[indexOne + 2][indexTwo - 2].equals("Fre")){
+                    gameBoard[indexOne + 2][indexTwo - 2] = clear;
+                }
+            if (indexOne > 0 && indexTwo > 0)
+                if(gameBoard[indexOne - 2][indexTwo - 2].equals("Fre")){
+                    gameBoard[indexOne - 2][indexTwo - 2] = clear;
+                }
+            char firstLetter = word.charAt(0), secondLetter = word.charAt(1);
+            switch (firstLetter) {
+                case 'A': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 10;
+                    break;
+                }
+                case 'B': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 9;
+                    break;
+                }
+                case 'C': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 8;
+                    break;
+                }
+                case 'D': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 7;
+                    break;
+                }
+                case 'E': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 6;
+                    break;
+                }
+                case 'F': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 5;
+                    break;
+                }
+                default: {
+                    System.out.println("Wrong character");
+                    break;
+                }
+            }
+            switch (secondLetter) {
+                case 'A': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 10;
+                    break;
+                }
+                case 'B': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 9;
+                    break;
+                }
+                case 'C': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 8;
+                    break;
+                }
+                case 'D': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 7;
+                    break;
+                }
+                case 'E': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 6;
+                    break;
+                }
+                case 'F': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 5;
+                    break;
+                }
+                default: {
+                    System.out.println("Wrong character");
+                    break;
+                }
+            }
+            System.out.println(indexHelperOne+"|"+indexHelperTwo);
+            System.out.println(indexOne+"|"+indexTwo);
+            if (indexOne-indexHelperOne==2 || indexHelperOne-indexOne==2 && indexTwo-indexHelperTwo==2||indexHelperTwo-indexTwo==2){
+                if (gameBoard[indexOne][indexTwo].substring(0,1).equals("w")){
+                    System.out.println("You allready have the spot");
+                }else {
+                    System.out.println("Is that gonna be your turn Yes/No");
+                    String vote = swap.nextLine();
+                    if (vote.equals("Yes")) {
+                        System.out.println("123");
+                        gameBoard[indexOne][indexTwo] = pieceSpot;
+
+                    } else moves(gameBoard, round, indexOne, indexTwo, swapHelp, swap);
+                }
+            }else {
+                System.out.println("Dont cheat");
+                queenMovesWhite(gameBoard,indexOne,indexTwo,swap,round,swapHelp);
+            }
+
+    }
+    public static void kingMoves(String[][] gameBoard, int indexOne, int indexTwo, Scanner swap, int round, String swapHelp){
+        if (indexOne <= 10 && gameBoard[indexOne][indexTwo].substring(0, 1).equals("w")) {
+            kingMovesWhite(gameBoard, indexOne, indexTwo, swap, round, swapHelp);
+        } else if (indexOne >= 0 && gameBoard[indexOne][indexTwo].substring(0, 1).equals("b")) {
+            kingMovesBlack(gameBoard, indexOne, indexTwo, swap, round, swapHelp);
+        }
+    }
+    public static void kingMovesBlack(String[][] gameBoard, int indexOne, int indexTwo, Scanner swap, int round, String swapHelp) {
+        int indexHelperOne = indexOne, indexHelperTwo = indexTwo;
+        String pieceSpot, clear = "   ";
+        System.out.println("red na kralq");
+
+        if (gameBoard[indexOne][indexTwo].substring(0, 2).equals("bK")) {
+            System.out.println(indexOne+"|"+indexTwo);
+            if (indexOne < 10 && indexTwo < 10) {
+                if (gameBoard[indexOne + 2][indexTwo + 2].equals("   ")) {
+                    gameBoard[indexOne + 2][indexTwo + 2] = "Fre";
+                }
+                if (gameBoard[indexOne + 2][indexTwo + 2].substring(0,1).equals("w")) {
+                    gameBoard[indexOne + 2][indexTwo + 2] = " + ";
+                }
+            }
+            if (indexOne < 10 && indexTwo > 0) {
+                if (gameBoard[indexOne + 2][indexTwo - 2].equals("   ")) {
+                    gameBoard[indexOne + 2][indexTwo - 2] = "Fre";
+                }
+                if (gameBoard[indexOne + 2][indexTwo - 2].substring(0,1).equals("w")) {
+                    gameBoard[indexOne + 2][indexTwo - 2] = " + ";
+                }
+            }
+            if (indexOne>0 && indexTwo < 10) {
+                if (gameBoard[indexOne - 2][indexTwo + 2].equals("   ")) {
+                    gameBoard[indexOne - 2][indexTwo + 2] = "Fre";
+                }
+                if (gameBoard[indexOne - 2][indexTwo + 2].substring(0,1).equals("w")) {
+                    gameBoard[indexOne - 2][indexTwo + 2] = " + ";
+                }
+
+            }
+            if (indexOne > 0 && indexTwo > 0) {
+                if (gameBoard[indexOne - 2][indexTwo - 2].equals("   ")) {
+                    gameBoard[indexOne - 2][indexTwo - 2] = "Fre";
+                }
+                if (gameBoard[indexOne - 2][indexTwo - 2].substring(0,1).equals("w")) {
+                    gameBoard[indexOne - 2][indexTwo - 2] = " + ";
+                }
+            }
+            if (indexOne < 10) {
+                if (gameBoard[indexOne + 2][indexTwo].equals("   ")) {
+                    gameBoard[indexOne + 2][indexTwo] = "Fre";
+                }
+                if (gameBoard[indexOne + 2][indexTwo].equals(" w ")) {
+                    gameBoard[indexOne + 2][indexTwo]=" + ";
+                }
+            }
+            if (indexOne > 0) {
+                if (gameBoard[indexOne - 2][indexTwo].equals("   ")) {
+                    gameBoard[indexOne - 2][indexTwo] = "Fre";
+                }
+                if(gameBoard[indexOne-2][indexTwo].substring(0).equals("w")){
+                    gameBoard[indexOne-2][indexTwo ] = " + ";
+                }
+            }
+            if (indexTwo < 10) {
+                if (gameBoard[indexOne][indexTwo + 2].equals("   ")) {
+                    gameBoard[indexOne][indexTwo + 2] = "Fre";
+                }
+                if(gameBoard[indexOne][indexTwo + 2].substring(0).equals("w")){
+                    gameBoard[indexOne][indexTwo + 2] = " + ";
+                }
+            }
+            printGameboard(gameBoard);
+            pieceSpot = gameBoard[indexOne][indexTwo];
+            gameBoard[indexOne][indexTwo] = clear;
+            String word = swap.nextLine();
+            if (indexOne < 10 && indexTwo < 10)
+                if (gameBoard[indexOne + 2][indexTwo + 2].equals("Fre")) {
+                    gameBoard[indexOne + 2][indexTwo + 2] = clear;
+                }
+            if (indexOne>0 && indexTwo < 10)
+                if(gameBoard[indexOne - 2][indexTwo + 2].equals("Fre")){
+                    gameBoard[indexOne - 2][indexTwo + 2] = clear;
+                }
+            if(indexOne < 10 && indexTwo > 0)
+                if(gameBoard[indexOne + 2][indexTwo - 2].equals("Fre")){
+                    gameBoard[indexOne + 2][indexTwo - 2] = clear;
+                }
+            if (indexOne > 0 && indexTwo > 0)
+                if(gameBoard[indexOne - 2][indexTwo - 2].equals("Fre")){
+                    gameBoard[indexOne - 2][indexTwo - 2] = clear;
+                }
+            char firstLetter = word.charAt(0), secondLetter = word.charAt(1);
+            switch (firstLetter) {
+                case 'A': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 10;
+                    break;
+                }
+                case 'B': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 9;
+                    break;
+                }
+                case 'C': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 8;
+                    break;
+                }
+                case 'D': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 7;
+                    break;
+                }
+                case 'E': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 6;
+                    break;
+                }
+                case 'F': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 5;
+                    break;
+                }
+                default: {
+                    System.out.println("Wrong character");
+                    break;
+                }
+            }
+            switch (secondLetter) {
+                case 'A': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 10;
+                    break;
+                }
+                case 'B': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 9;
+                    break;
+                }
+                case 'C': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 8;
+                    break;
+                }
+                case 'D': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 7;
+                    break;
+                }
+                case 'E': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 6;
+                    break;
+                }
+                case 'F': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 5;
+                    break;
+                }
+                default: {
+                    System.out.println("Wrong character");
+                    break;
+                }
+            }
+            if (indexOne - indexHelperOne == 2 || indexOne - indexHelperOne == -2 && indexTwo - indexHelperOne == 2 || indexTwo - indexHelperTwo == -2) {
+                if (gameBoard[indexOne][indexTwo].substring(0, 1).equals("b")) {
+                    System.out.println("You allready have the spot");
+                } else {
+                    System.out.println("Is that gonna be your turn Yes/No");
+                    String vote = swap.nextLine();
+                    if (vote.equals("Yes")) {
+
+                        gameBoard[indexOne][indexTwo] = pieceSpot;
+
+                    } else moves(gameBoard, round, indexOne, indexTwo, swapHelp, swap);
+                }
+            } else {
+                System.out.println("You cheat");
+                queenMovesBlack(gameBoard, indexOne, indexTwo, swap, round, swapHelp);
+            }
+        }
+    }
+    public static void kingMovesWhite(String[][] gameBoard, int indexOne, int indexTwo, Scanner swap, int round, String swapHelp) {
+        int indexHelperOne = indexOne, indexHelperTwo = indexTwo;
+        String pieceSpot, clear = "   ";
+        System.out.println("red na kralq");
+
+        if (gameBoard[indexOne][indexTwo].substring(0, 2).equals("wK")) {
+            System.out.println(indexOne+"|"+indexTwo);
+            if (indexOne < 10 && indexTwo < 10) {
+                if (gameBoard[indexOne + 2][indexTwo + 2].equals("   ")) {
+                    gameBoard[indexOne + 2][indexTwo + 2] = "Fre";
+                }
+                if (gameBoard[indexOne + 2][indexTwo + 2].substring(0,1).equals("b")) {
+                    gameBoard[indexOne + 2][indexTwo + 2] = " + ";
+                }
+            }
+            if (indexOne < 10 && indexTwo > 0) {
+                if (gameBoard[indexOne + 2][indexTwo - 2].equals("   ")) {
+                    gameBoard[indexOne + 2][indexTwo - 2] = "Fre";
+                }
+                if (gameBoard[indexOne + 2][indexTwo - 2].substring(0,1).equals("b")) {
+                    gameBoard[indexOne + 2][indexTwo - 2] = " + ";
+                }
+            }
+            if (indexOne>0 && indexTwo < 10) {
+                if (gameBoard[indexOne - 2][indexTwo + 2].equals("   ")) {
+                    gameBoard[indexOne - 2][indexTwo + 2] = "Fre";
+                }
+                if (gameBoard[indexOne - 2][indexTwo + 2].substring(0,1).equals("b")) {
+                    gameBoard[indexOne - 2][indexTwo + 2] = " + ";
+                }
+
+            }
+            if (indexOne > 0 && indexTwo > 0) {
+                if (gameBoard[indexOne - 2][indexTwo - 2].equals("   ")) {
+                    gameBoard[indexOne - 2][indexTwo - 2] = "Fre";
+                }
+                if (gameBoard[indexOne - 2][indexTwo - 2].substring(0,1).equals("b")) {
+                    gameBoard[indexOne - 2][indexTwo - 2] = " + ";
+                }
+            }
+            if (indexOne < 10) {
+                if (gameBoard[indexOne + 2][indexTwo].equals("   ")) {
+                    gameBoard[indexOne + 2][indexTwo] = "Fre";
+                }
+                if (gameBoard[indexOne + 2][indexTwo].substring(0).equals("b")) {
+                    gameBoard[indexOne + 2][indexTwo]=" + ";
+                }
+            }
+            if (indexOne > 0) {
+                if (gameBoard[indexOne - 2][indexTwo].equals("   ")) {
+                    gameBoard[indexOne - 2][indexTwo] = "Fre";
+                }
+                if(gameBoard[indexOne-2][indexTwo].substring(0).equals("b")){
+                    gameBoard[indexOne-2][indexTwo ] = " + ";
+                }
+            }
+            if (indexTwo < 10) {
+                if (gameBoard[indexOne][indexTwo + 2].equals("   ")) {
+                    gameBoard[indexOne][indexTwo + 2] = "Fre";
+                }
+                if(gameBoard[indexOne][indexTwo + 2].substring(0).equals("b")){
+                    gameBoard[indexOne][indexTwo + 2] = " + ";
+                }
+            }
+            printGameboard(gameBoard);
+            pieceSpot = gameBoard[indexOne][indexTwo];
+            gameBoard[indexOne][indexTwo] = clear;
+            String word = swap.nextLine();
+            if (indexOne < 10 && indexTwo < 10)
+                if (gameBoard[indexOne + 2][indexTwo + 2].equals("Fre")) {
+                    gameBoard[indexOne + 2][indexTwo + 2] = clear;
+                }
+            if (indexOne>0 && indexTwo < 10)
+                if(gameBoard[indexOne - 2][indexTwo + 2].equals("Fre")){
+                    gameBoard[indexOne - 2][indexTwo + 2] = clear;
+                }
+            if(indexOne < 10 && indexTwo > 0)
+                if(gameBoard[indexOne + 2][indexTwo - 2].equals("Fre")){
+                    gameBoard[indexOne + 2][indexTwo - 2] = clear;
+                }
+            if (indexOne > 0 && indexTwo > 0)
+                if(gameBoard[indexOne - 2][indexTwo - 2].equals("Fre")){
+                    gameBoard[indexOne - 2][indexTwo - 2] = clear;
+                }
+            char firstLetter = word.charAt(0), secondLetter = word.charAt(1);
+            switch (firstLetter) {
+                case 'A': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 10;
+                    break;
+                }
+                case 'B': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 9;
+                    break;
+                }
+                case 'C': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 8;
+                    break;
+                }
+                case 'D': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 7;
+                    break;
+                }
+                case 'E': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 6;
+                    break;
+                }
+                case 'F': {
+                    indexOne = Character.getNumericValue(firstLetter);
+                    indexOne = indexOne - 5;
+                    break;
+                }
+                default: {
+                    System.out.println("Wrong character");
+                    break;
+                }
+            }
+            switch (secondLetter) {
+                case 'A': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 10;
+                    break;
+                }
+                case 'B': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 9;
+                    break;
+                }
+                case 'C': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 8;
+                    break;
+                }
+                case 'D': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 7;
+                    break;
+                }
+                case 'E': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 6;
+                    break;
+                }
+                case 'F': {
+                    indexTwo = Character.getNumericValue(secondLetter);
+                    indexTwo = indexTwo - 5;
+                    break;
+                }
+                default: {
+                    System.out.println("Wrong character");
+                    break;
+                }
+            }
+            if (indexOne - indexHelperOne == 2 || indexOne - indexHelperOne == -2 && indexTwo - indexHelperOne == 2 || indexTwo - indexHelperTwo == -2) {
+                if (gameBoard[indexOne][indexTwo].substring(0, 1).equals("w")) {
+                    System.out.println("You allready have the spot");
+                } else {
+                    System.out.println("Is that gonna be your turn Yes/No");
+                    String vote = swap.nextLine();
+                    if (vote.equals("Yes")) {
+
+                        gameBoard[indexOne][indexTwo] = pieceSpot;
+
+                    } else moves(gameBoard, round, indexOne, indexTwo, swapHelp, swap);
+                }
+            } else {
+                System.out.println("You cheat");
+                queenMovesBlack(gameBoard, indexOne, indexTwo, swap, round, swapHelp);
+            }
         }
     }
 }
